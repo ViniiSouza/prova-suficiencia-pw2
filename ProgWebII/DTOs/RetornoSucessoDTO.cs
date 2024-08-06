@@ -6,6 +6,11 @@ namespace ProgWebII.DTOs
     {
         [JsonPropertyName("success")]
         public SucessoDTO Success { get; set; }
+
+        public RetornoSucessoDTO(string mensagem)
+        {
+            Success = new SucessoDTO { Text = mensagem };
+        }
     }
 
     public class SucessoDTO

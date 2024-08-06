@@ -1,6 +1,6 @@
 ﻿namespace ProgWebII.DTOs
 {
-    public class UsuarioLoginDTO
+    public class MasterLoginDTO
     {
         public string Nome { get; set; }
 

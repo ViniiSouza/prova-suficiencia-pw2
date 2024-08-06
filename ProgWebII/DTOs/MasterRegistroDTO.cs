@@ -1,11 +1,9 @@
 ﻿namespace ProgWebII.DTOs
 {
-    public class UsuarioRegistroDTO
+    public class MasterRegistroDTO
     {
         public string Nome { get; set; }
 
         public string Senha { get; set; }
-
-        public string Telefone { get; set; }
     }
 }

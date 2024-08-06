@@ -1,5 +1,6 @@
 ﻿using ProgWebII.Auxiliares;
 using ProgWebII.DTOs;
+using ProgWebII.Modelos;
 using ProgWebII.Repositorios;
 using ProgWebII.Seguranca;
 using System.Security.Cryptography;
@@ -9,47 +10,46 @@ namespace ProgWebII.Servicos
 {
     public class AutenticacaoServico : IAutenticacaoServico
     {
-        private readonly IUsuarioRepositorio _usuarioRepositorio;
+        private readonly IMasterRepositorio _masterRepositorio;
 
-        public AutenticacaoServico(IUsuarioRepositorio usuarioRepositorio)
+        public AutenticacaoServico(IMasterRepositorio usuarioRepositorio)
         {
-            _usuarioRepositorio = usuarioRepositorio;
+            _masterRepositorio = usuarioRepositorio;
         }
 
-        public string? Login(UsuarioLoginDTO dto)
+        public string? Login(MasterLoginDTO dto)
         {
             dto.Senha = ToShaHash(dto.Senha);
-            var entidade = _usuarioRepositorio.ObterPorNome(dto.Nome);
+            var entidade = _masterRepositorio.ObterPorLogin(dto.Nome);
 
             if (entidade == null)
                 throw new System.ArgumentException("Usuário não encontrado");
 
-            if (!_usuarioRepositorio.UsuarioValido(dto.Nome, dto.Senha))
+            if (!_masterRepositorio.MasterValido(dto.Nome, dto.Senha))
                 throw new System.ArgumentException("Senha inválida");
 
             return TokenServico.GerarToken(entidade);
         }
 
-        public string? Registro(UsuarioRegistroDTO dto)
+        public string? Registro(MasterRegistroDTO dto)
         {
-            if (_usuarioRepositorio.ObterPorNome(dto.Nome) != null)
+            if (_masterRepositorio.ObterPorLogin(dto.Nome) != null)
             {
                 throw new ArgumentException("Usuário já existe");
             }
 
             dto.Senha = ToShaHash(dto.Senha);
-            if (_usuarioRepositorio.UsuarioValido(dto.Nome, dto.Senha))
+            if (_masterRepositorio.MasterValido(dto.Nome, dto.Senha))
                 return null;
 
-            var entidade = new Modelos.Usuario
+            var entidade = new Master
             {
-                Nome = dto.Nome,
-                Senha = dto.Senha,
-                Telefone = dto.Telefone
+                Login = dto.Nome,
+                Senha = dto.Senha
             };
 
-            _usuarioRepositorio.Inserir(entidade);
-            _usuarioRepositorio.Salvar();
+            _masterRepositorio.Inserir(entidade);
+            _masterRepositorio.Salvar();
 
             return TokenServico.GerarToken(entidade);
         }
