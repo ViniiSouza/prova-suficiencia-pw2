@@ -11,7 +11,21 @@ namespace ProgWebII.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Produto",
+                name: "Master",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Master", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Produtos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,22 +35,21 @@ namespace ProgWebII.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produto", x => x.Id);
+                    table.PrimaryKey("PK_Produtos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Usuario",
+                name: "Usuarios",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,15 +64,15 @@ namespace ProgWebII.Migrations
                 {
                     table.PrimaryKey("PK_Comandas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comandas_Usuario_UsuarioId",
+                        name: "FK_Comandas_Usuarios_UsuarioId",
                         column: x => x.UsuarioId,
-                        principalTable: "Usuario",
+                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProdutoComanda",
+                name: "ProdutosComanda",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -69,17 +82,17 @@ namespace ProgWebII.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProdutoComanda", x => x.Id);
+                    table.PrimaryKey("PK_ProdutosComanda", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProdutoComanda_Comandas_ComandaId",
+                        name: "FK_ProdutosComanda_Comandas_ComandaId",
                         column: x => x.ComandaId,
                         principalTable: "Comandas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProdutoComanda_Produto_ProdutoId",
+                        name: "FK_ProdutosComanda_Produtos_ProdutoId",
                         column: x => x.ProdutoId,
-                        principalTable: "Produto",
+                        principalTable: "Produtos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -90,13 +103,13 @@ namespace ProgWebII.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProdutoComanda_ComandaId",
-                table: "ProdutoComanda",
+                name: "IX_ProdutosComanda_ComandaId",
+                table: "ProdutosComanda",
                 column: "ComandaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProdutoComanda_ProdutoId",
-                table: "ProdutoComanda",
+                name: "IX_ProdutosComanda_ProdutoId",
+                table: "ProdutosComanda",
                 column: "ProdutoId");
         }
 
@@ -104,16 +117,19 @@ namespace ProgWebII.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProdutoComanda");
+                name: "Master");
+
+            migrationBuilder.DropTable(
+                name: "ProdutosComanda");
 
             migrationBuilder.DropTable(
                 name: "Comandas");
 
             migrationBuilder.DropTable(
-                name: "Produto");
+                name: "Produtos");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
+                name: "Usuarios");
         }
     }
 }

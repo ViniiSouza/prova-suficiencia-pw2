@@ -9,6 +9,7 @@ namespace ProgWebII.Infra
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Produto> Produtos { get; set; }
         public virtual DbSet<ProdutoComanda> ProdutosComanda { get; set; }
+        public virtual DbSet<Master> Master { get; set; }
 
 
         public ContextoBanco(DbContextOptions<ContextoBanco> options) : base(options) { }

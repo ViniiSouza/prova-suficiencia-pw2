@@ -11,7 +11,7 @@ using ProgWebII.Infra;
 namespace ProgWebII.Migrations
 {
     [DbContext(typeof(ContextoBanco))]
-    [Migration("20240804154242_InitialMigration")]
+    [Migration("20240806025056_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -42,6 +42,27 @@ namespace ProgWebII.Migrations
                     b.ToTable("Comandas");
                 });
 
+            modelBuilder.Entity("ProgWebII.Modelos.Master", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Master");
+                });
+
             modelBuilder.Entity("ProgWebII.Modelos.Produto", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +80,7 @@ namespace ProgWebII.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Produto");
+                    b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("ProgWebII.Modelos.ProdutoComanda", b =>
@@ -82,7 +103,7 @@ namespace ProgWebII.Migrations
 
                     b.HasIndex("ProdutoId");
 
-                    b.ToTable("ProdutoComanda");
+                    b.ToTable("ProdutosComanda");
                 });
 
             modelBuilder.Entity("ProgWebII.Modelos.Usuario", b =>
@@ -97,17 +118,13 @@ namespace ProgWebII.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuario");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("ProgWebII.Modelos.Comanda", b =>

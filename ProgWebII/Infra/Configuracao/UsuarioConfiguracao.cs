@@ -10,7 +10,6 @@ namespace ProgWebII.Infra.Configuracao
         {
             builder.HasKey(prop => prop.Id);
             builder.Property(prop => prop.Nome).HasMaxLength(100).IsRequired();
-            builder.Property(prop => prop.Senha).IsRequired();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ProgWebII.Seguranca
             _config = config;
         }
 
-        public static string GerarToken(Usuario usuario)
+        public static string GerarToken(Master master)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var secret = _config["Secret"].ToString();
@@ -25,7 +25,7 @@ namespace ProgWebII.Seguranca
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, usuario.Nome.ToLower()),
+                    new Claim(ClaimTypes.Name, master.Login.ToLower()),
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
