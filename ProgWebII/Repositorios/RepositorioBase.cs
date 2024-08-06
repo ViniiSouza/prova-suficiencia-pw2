@@ -30,5 +30,15 @@ namespace ProgWebII.Repositorios
         {
             _contexto.Set<T>().Remove(entidade);
         }
+
+        public IEnumerable<T> ObterTodos()
+        {
+            return _contexto.Set<T>().ToList();
+        }
+
+        public T ObterPorId(int id)
+        {
+            return _contexto.Set<T>().Find(id);
+        }
     }
 }
