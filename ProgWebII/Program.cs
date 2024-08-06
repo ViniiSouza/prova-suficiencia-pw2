@@ -5,6 +5,7 @@ using ProgWebII.Infra;
 using ProgWebII.Repositorios;
 using ProgWebII.Seguranca;
 using ProgWebII.Servicos;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    option.IncludeXmlComments(xmlPath);
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -48,7 +52,10 @@ builder.Services.AddTransient(typeof(IRepositorioBase<>), typeof(RepositorioBase
 builder.Services.AddTransient(typeof(IServicoBase<>), typeof(ServicoBase<>));
 
 builder.Services.AddTransient(typeof(IUsuarioRepositorio), typeof(UsuarioRepositorio));
+builder.Services.AddTransient(typeof(IMasterRepositorio), typeof(MasterRepositorio));
+builder.Services.AddTransient(typeof(IComandaRepositorio), typeof(ComandaRepositorio));
 builder.Services.AddTransient(typeof(IAutenticacaoServico), typeof(AutenticacaoServico));
+builder.Services.AddTransient(typeof(IComandaServico), typeof(ComandaServico));
 
 TokenServico.Initialize(builder.Configuration);
 
@@ -63,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UsePathBase("/RestAPIFurb");
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
