@@ -25,6 +25,8 @@ namespace ProgWebII.Controllers
         /// Busca todas as comandas
         /// </summary>
         /// <returns>Retorna a lista de comandas</returns>
+        /// <response code="204">Não existe nenhuma comanda</response>
+        /// <response code="200">Ok</response>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -47,6 +49,8 @@ namespace ProgWebII.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retorna a comanda encontrada, caso exista</returns>
+        /// <response code="404">Comanda não encontrada</response>
+        /// <response code="200">Ok</response>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -74,6 +78,8 @@ namespace ProgWebII.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>Retorna o objeto da comanda junto com o id</returns>
+        /// <response code="400">Erro de validação</response>
+        /// <response code="200">Ok</response>
         [HttpPost]
         public IActionResult Create(CriarComandaRequestDTO dto)
         {
@@ -130,6 +136,7 @@ namespace ProgWebII.Controllers
         /// <param name="id"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
+        /// <response code="200">Ok</response>
         [HttpPut("{id}")]
         public IActionResult Update([FromRoute] int id, AlterarComandaRequestDTO dto)
         {
@@ -142,6 +149,8 @@ namespace ProgWebII.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retorna uma mensagem de sucesso na deleção</returns>
+        /// <response code="404">Comanda não encontrada</response>
+        /// <response code="200">Ok</response>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
